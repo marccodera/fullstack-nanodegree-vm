@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for, f
 # IMPORTS FOR DATABASE CONNECTION AND OPERATIONS
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-# from database_setup import Base, Restaurant, MenuItem, User
+from database_setup import Category, Base, Item, User
 
 # [Anti Forge] Imports needed
 from flask import session as login_session
