@@ -20,17 +20,32 @@ import requests
 
 app = Flask(__name__)
 
+#Connect to Database and create database session
+engine = create_engine('sqlite:///catalog.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
 # Show Catalog
 @app.route('/')
 @app.route('/catalog/')
 def showCatalog():
-    response = 'show catalog'
-    return response
-
+    # Queries the database for categories and items
+    categories = session.query(Category).order_by(asc(Category.name))
+    items = session.query(Item).order_by(Item.id).limit(5)
+    # If user is not in the userlist, returns public html file
+    # if 'username' not in login_session:
+    #     return render_template('publiccatalog.html', categories = categories)
+    return render_template('catalog.html', categories = categories,
+                           items = items)
 
 # Show Items in Category
 @app.route('/catalog/<category>/items/')
 def showCategoryItems(category):
+    # Checking the user is logged in, if not, user is redirected to login screen
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     response = 'show category items in: %s' % category 
     return response
 
