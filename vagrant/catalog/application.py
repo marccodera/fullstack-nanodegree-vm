@@ -41,18 +41,25 @@ def showCatalog():
                            items = items)
 
 # Show Items in Category
-@app.route('/catalog/<category>/items/')
-def showCategoryItems(category):
-    # Checking the user is logged in, if not, user is redirected to login screen
+@app.route('/catalog/<category_name>/items/')
+def showCategoryItems(category_name):
+    # Queries the database for categories and items
+    categories = session.query(Category).order_by(asc(Category.name))
+    itemCategory = session.query(Category).filter_by(name = category_name).one()
+    items = session.query(Item).filter_by(category_id = itemCategory.id).all()
+    # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
-    #     return redirect('/login')
-    response = 'show category items in: %s' % category 
-    return response
+    #     return render_template('publiccatalog.html', categories = categories)
+    return render_template('items.html', categories = categories,
+                           items = items)
 
 
 # Add Item in Catalog
 @app.route('/catalog/new/', methods=['GET','POST'])
 def newItem():
+    # Checking the user is logged in, if not, user is redirected to login screen
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     response = 'new item'
     return response
 
