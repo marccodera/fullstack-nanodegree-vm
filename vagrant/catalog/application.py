@@ -32,8 +32,9 @@ session = DBSession()
 @app.route('/catalog/')
 def showCatalog():
     # Queries the database for categories and items
-    categories = session.query(Category).order_by(asc(Category.name))
-    items = session.query(Item).order_by(Item.id).limit(5)
+    categories = session.query(Category).order_by(asc(Category.id))
+    items = session.query(Item).order_by(asc(Item.id))
+    # items = session.query(Item).order_by(Item.id).limit(5)
     # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
     #     return render_template('publiccatalog.html', categories = categories)
@@ -44,14 +45,14 @@ def showCatalog():
 @app.route('/catalog/<category_name>/items/')
 def showCategoryItems(category_name):
     # Queries the database for categories and items
-    categories = session.query(Category).order_by(asc(Category.name))
+    categories = session.query(Category).order_by(asc(Category.id))
     itemCategory = session.query(Category).filter_by(name = category_name).one()
     items = session.query(Item).filter_by(category_id = itemCategory.id).all()
     # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
     #     return render_template('publiccatalog.html', categories = categories)
     return render_template('items.html', categories = categories,
-                           items = items)
+                           items = items, category_name = category_name)
 
 
 # Add Item in Catalog
@@ -67,8 +68,21 @@ def newItem():
 # Edit Item in catalog
 @app.route('/catalog/<item>/edit', methods=['GET','POST'])
 def editItem(item):
-    response = 'edit item'
-    return response
+    itemInfo = session.query(Item).filter_by(name = item).one()
+    # If user is not in the userlist, returns public html file
+    # if 'username' not in login_session:
+    #     return render_template('publiccatalog.html', categories = categories)
+    if request.method == 'POST':
+        if request.form['name']:
+            itemInfo.name = request.form['name']
+        if request.form['description']:
+            itemInfo.description = request.form['description']
+        session.add(itemInfo)
+        session.commit() 
+        flash('Catalog Item Successfully Edited')
+        return redirect(url_for('showItemInfor', category =itemInfo.category, item = itemInfo.name))
+    else:
+        return render_template('edititem.html', item = itemInfo, category =itemInfo.category)
 
 # Delete Item in catalog
 @app.route('/catalog/<item>/delete', methods=['GET','POST'])
@@ -80,8 +94,12 @@ def deleteItem(item):
 # Show Item information
 @app.route('/catalog/<category>/<string:item>/')
 def showItemInfor(category, item):
-    response = 'show item information'
-    return response
+    itemInfo = session.query(Item).filter_by(name = item).one()
+    # If user is not in the userlist, returns public html file
+    # if 'username' not in login_session:
+    #     return render_template('publiccatalog.html', categories = categories)
+    return render_template('iteminfo.html', category = category,
+                           item = itemInfo)
 
 
 

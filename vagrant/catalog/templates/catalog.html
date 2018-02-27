@@ -6,32 +6,36 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="row background-lightblue">
-				<div class="col-md-6 text-left text-uppercase">
-					<h1>Catalog App</h1>
-				</div>
-				<div class="col-md-6 text-right">
-					<a href="#">Login</a>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12 text-info background-lightyellow">
-					<!--MESSAGE FLASHING EXAMPLE -->
-					{% with messages = get_flashed_messages() %}
-						{% if messages %}
-
-							{% for message in messages %}
-							  {{message}}
-							  {% endfor %}
-
-						{% endif %}
-					{% endwith %}
+			<div class="container">
+				<div class="row background-lightblue">
+					<div class="col-md-6 text-left text-uppercase">
+						<h1>Catalog App</h1>
+					</div>
+					<div class="col-md-6 text-right">
+						<a href="#">Login</a>
+					</div>
 				</div>
 			</div>
 
 			<div class="container">
 				<div class="row">
+					<div class="col-md-12 text-info background-lightyellow">
+						<!--MESSAGE FLASHING EXAMPLE -->
+						{% with messages = get_flashed_messages() %}
+							{% if messages %}
+
+								{% for message in messages %}
+								  {{message}}
+								{% endfor %}
+
+							{% endif %}
+						{% endwith %}
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row margin-bottom-5 h-100">
 					<div class="col-md-4 background-lightgrey">
 						<div class="text-darkblue">
 							<h2>Categories</h2>
@@ -39,7 +43,9 @@
 
 						{% for i in categories %} <!-- categories variable must be provided by calling string -->
 						
-						<div>{{i.name}}</div>
+						<div class="margin-top-1">
+							<a href="{{url_for('showCategoryItems', category_name = i.name)}}">{{i.name}}</a>
+						</div>
 						
 						{% endfor %}
 						
@@ -48,13 +54,16 @@
 						<div>
 							<a href="{{url_for('newItem')}}">New Item</a>
 						</div>
+						<hr class="light my-4">
 						<div class="text-darkblue">
 							<h2>Latest Items</h2>
 						</div>
 
 						{% for i in items %}
 
-						<div>{{i.name}}</div>
+						<div>
+							<a href="{{url_for('showItemInfor', category = categories[i.category_id - 1].name, item = i.name)}}">{{i.name}}</a>
+						</div>
 
 						{% endfor %}
 

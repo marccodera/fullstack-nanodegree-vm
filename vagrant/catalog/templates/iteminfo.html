@@ -38,37 +38,34 @@
 
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4 background-lightgrey">
+					<div class="col-md-4 background-lightgreen">
 						<div class="text-darkblue">
-							<h2>Categories</h2>
+							<h2>Actions</h2>
 						</div>
-
-						{% for i in categories %} <!-- categories variable must be provided by calling string -->
 						
 						<div>
-							<a href="{{url_for('showCategoryItems', category_name = i.name)}}">{{i.name}}</a>
+							<a href="{{url_for('editItem', item = item.name)}}">Edit</a>
 						</div>
-						
-						{% endfor %}
-						
+						<div>
+							<a href="{{url_for('deleteItem', item = item.name)}}">Delete</a>
+						</div>
 					</div>
-					<div class="col-md-8 background-lightgreen">
+					<div class="col-md-8">
 						<div>
 							<a href="{{url_for('newItem')}}">New Item</a>
 						</div>
 						<hr class="light my-4">
 						<div class="text-darkblue">
-							<h2>Latest Items for {{category_name}} category</h2>
+							<h2>{{item.name}}</h2>
 						</div>
-
-						{% for i in items %}
-
-						<div>
-							<a href="{{url_for('showItemInfor', category = categories[i.category_id - 1].name, item = i.name)}}">{{i.name}}</a>
-						</div>
-
-						{% endfor %}
-
+						<ul>
+							<li>Id: {{item.id}}</li>
+							<li>Description: {{item.description}}</li>
+							<li>Category ID: {{item.category_id}}</li>
+							<li>Category: {{item.category}}</li>
+							<li>Created By (User ID): {{item.user_id}}</li>
+							<li>Created By (User Name): {{item.user}}</li>
+						</ul>
 					</div>
 				</div>
 			</div>
