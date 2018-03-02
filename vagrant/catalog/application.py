@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 
 # IMPORTS FOR DATABASE CONNECTION AND OPERATIONS
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Category, Base, Item, User
 
@@ -22,9 +22,18 @@ app = Flask(__name__)
 
 #Connect to Database and create database session
 engine = create_engine('sqlite:///catalog.db')
+# Bind the engine to the metadata of the Base class so that the
+# declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
+# A DBSession() instance establishes all conversations with the database
+# and represents a "staging zone" for all the objects loaded into the
+# database session object. Any change made against the objects in the
+# session won't be persisted into the database until you call
+# session.commit(). If you're not happy about the changes, you can
+# revert all of them back to the last commit by calling
+# session.rollback()
 session = DBSession()
 
 # Show Catalog
@@ -33,8 +42,7 @@ session = DBSession()
 def showCatalog():
     # Queries the database for categories and items
     categories = session.query(Category).order_by(asc(Category.id))
-    items = session.query(Item).order_by(asc(Item.id))
-    # items = session.query(Item).order_by(Item.id).limit(5)
+    items = session.query(Item).order_by(desc(Item.id)).limit(5)
     # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
     #     return render_template('publiccatalog.html', categories = categories)
@@ -46,13 +54,15 @@ def showCatalog():
 def showCategoryItems(category_name):
     # Queries the database for categories and items
     categories = session.query(Category).order_by(asc(Category.id))
-    itemCategory = session.query(Category).filter_by(name = category_name).one()
-    items = session.query(Item).filter_by(category_id = itemCategory.id).all()
+    itemCategory = session.query(Category).filter_by(
+      name = category_name).one()
+    items = session.query(Item).filter_by(
+      category_id = itemCategory.id).all()
     # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
     #     return render_template('publiccatalog.html', categories = categories)
     return render_template('items.html', categories = categories,
-                           items = items, category_name = category_name)
+      items = items, category_name = category_name)
 
 
 # Add Item in Catalog
@@ -61,14 +71,39 @@ def newItem():
     # Checking the user is logged in, if not, user is redirected to login screen
     # if 'username' not in login_session:
     #     return redirect('/login')
-    response = 'new item'
-    return response
+
+    # After implementing user control uncomment this!!!!!!!
+    # itemUser = session.query(User).filter_by(
+    #  name = username).one()
+    if request.method == 'POST':
+        # If Category doesn't exist, doesn't create Item
+        try:
+            itemCategory = session.query(Category).filter_by(
+              name = request.form['category']).one()
+        except:
+            flash('Category does not exist!')
+            return render_template('newitem.html')
+        # Creates Item
+        newItem = Item(name = request.form['name'],
+          description = request.form['description'],
+          category_id = itemCategory.id, 
+          user_id = 1)
+        session.add(newItem)
+        flash('New Item %s Successfully Created' % (newItem.name))
+        session.commit()
+        #return render_template('newitem.html')
+        return redirect(url_for('showCatalog'))
+    else:
+       return render_template('newitem.html')
 
 
 # Edit Item in catalog
-@app.route('/catalog/<item>/edit', methods=['GET','POST'])
-def editItem(item):
-    itemInfo = session.query(Item).filter_by(name = item).one()
+@app.route('/catalog/<category>/<item>/edit', methods=['GET','POST'])
+def editItem(category, item):
+    itemCategory = session.query(Category).filter_by(
+      name = category).one()
+    itemInfo = session.query(Item).filter_by(
+      name = item).filter_by(category_id = itemCategory.id).one()
     # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
     #     return render_template('publiccatalog.html', categories = categories)
@@ -80,9 +115,11 @@ def editItem(item):
         session.add(itemInfo)
         session.commit() 
         flash('Catalog Item Successfully Edited')
-        return redirect(url_for('showItemInfor', category =itemInfo.category, item = itemInfo.name))
+        return redirect(url_for('showItemInfor', 
+          category =itemInfo.category, item = itemInfo.name))
     else:
-        return render_template('edititem.html', item = itemInfo, category =itemInfo.category)
+        return render_template('edititem.html', 
+          category = itemInfo.category.name, item = itemInfo)
 
 # Delete Item in catalog
 @app.route('/catalog/<item>/delete', methods=['GET','POST'])
@@ -92,9 +129,18 @@ def deleteItem(item):
 
 
 # Show Item information
-@app.route('/catalog/<category>/<string:item>/')
+@app.route('/catalog/<category>/<item>/')
 def showItemInfor(category, item):
-    itemInfo = session.query(Item).filter_by(name = item).one()
+    # Using try because there can be items with same name
+    # and different categories, if this happens, the except
+    # takes the correct item from the category. Query economy!
+    try:
+        itemInfo = session.query(Item).filter_by(name = item).one()
+    except:
+        itemCategory = session.query(Category).filter_by(
+          name = category).one()
+        itemInfo = session.query(Item).filter_by(
+          name = item).filter_by(category_id = itemCategory.id).one()
     # If user is not in the userlist, returns public html file
     # if 'username' not in login_session:
     #     return render_template('publiccatalog.html', categories = categories)
