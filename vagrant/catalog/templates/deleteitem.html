@@ -38,33 +38,34 @@
 
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4 background-lightgrey">
+					<div class="col-md-12">
 						<div class="text-darkblue">
-							<h2>Categories</h2>
+							<h2>Are you sure you want to delete {{item.name}} from {{item.category.name}}?</h2>
 						</div>
-
-						{% for i in categories %} <!-- categories variable must be provided by calling string -->
-						
-						<div>
-							<a href="{{url_for('showCategoryItems', category_name = i.name)}}">{{i.name}}</a>
+						<div class="text-info">
+							<div class="margin-top-1">Description
+								<div class="text-warning">{{item.description}}</div>
+							</div>
+							<div class="margin-top-1">Category
+								<div class="text-warning">{{item.category.name}}</div>
+							</div>
+							<div class="margin-top-1">Created By
+								<div class="text-warning">{{item.user.name}}</div>
+							</div>
 						</div>
-						
-						{% endfor %}
-						
 					</div>
-					<div class="col-md-8 background-lightgreen">
+					<div class="col-md-12 background-lightgreen">
 						<div class="text-darkblue">
-							<h2>Latest Items for {{category_name}} category</h2>
+							<h2>Actions</h2>
 						</div>
-
-						{% for i in items %}
-
-						<div>
-							<a href="{{url_for('showItemInfor', category = i.category.name, item = i.name)}}">{{i.name}}</a>
-						</div>
-
-						{% endfor %}
-
+						<form action="{{url_for('deleteItem', category = item.category.name, item = item.name)}}" method = 'POST'>
+							<div>
+								<input type='submit' value='Yes delete it!'>
+							</div>
+							<div>
+								<a href="{{url_for('showItemInfor', category = item.category.name, item = item.name)}}">No</a>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

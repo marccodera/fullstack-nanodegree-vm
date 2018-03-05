@@ -39,10 +39,6 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<div>
-							<a href="{{url_for('newItem')}}">New Item</a>
-						</div>
-						<hr class="light my-4">
 						<div class="text-darkblue">
 							<h2>{{item.category.name}} - {{item.name}}</h2>
 						</div>
@@ -67,7 +63,7 @@
 							<a href="{{url_for('editItem', category = item.category.name, item = item.name)}}">Edit</a>
 						</div>
 						<div>
-							<a href="{{url_for('deleteItem', item = item.name)}}">Delete</a>
+							<a href="{{url_for('deleteItem', category = item.category.name, item = item.name)}}">Delete</a>
 						</div>
 					</div>
 				</div>

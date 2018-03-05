@@ -122,10 +122,25 @@ def editItem(category, item):
           category = itemInfo.category.name, item = itemInfo)
 
 # Delete Item in catalog
-@app.route('/catalog/<item>/delete', methods=['GET','POST'])
-def deleteItem(item):
-    response = 'delete item: '
-    return response
+@app.route('/catalog/<category>/<item>/delete', methods=['GET','POST'])
+def deleteItem(category, item):
+    #Checking the user is logged in
+    #if 'username' not in login_session:
+    #    return redirect('/login')
+    #if restaurantToDelete.user_id != login_session['user_id']:
+    #    return "<script>function myFunction() {alert('You are not authorized to delete this restaurant. Please create your own restaurant in order to delete.');}</script><body onload='myFunction()'>"
+    itemCategory = session.query(Category).filter_by(
+      name = category).one()
+    itemToDelete = session.query(Item).filter_by(
+      name = item).filter_by(category_id = itemCategory.id).one()
+    if request.method == 'POST':
+        session.delete(itemToDelete)
+        flash('%s has been successfully deleted' % itemToDelete.name)
+        session.commit()
+        return redirect(url_for('showCatalog'))
+    else:
+    	return render_template('deleteitem.html', 
+          category = itemToDelete.category.name, item = itemToDelete)
 
 
 # Show Item information
