@@ -7,21 +7,21 @@
 	<body>
 		<div class="container">
 			<div class="container">
-				<div class="row background-lightblue">
+				<div class="row background-lightblue align-items-center">
 					<div class="col-md-6 text-left text-uppercase">
 						<a href="{{url_for('showCatalog')}}">
 							<h1>Catalog App</h1>
 						</a>
 					</div>
 					<div class="col-md-6 text-right">
-						<a href="#">Login</a>
+						<a class="btn btn-primary align-middle" href="#">Login</a>
 					</div>
 				</div>
 			</div>
 
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 text-info background-lightyellow">
+					<div class="col-md-12 text-warning background-lightyellow">
 						<!--MESSAGE FLASHING EXAMPLE -->
 						{% with messages = get_flashed_messages() %}
 							{% if messages %}
@@ -37,41 +37,39 @@
 			</div>
 
 			<div class="container">
-				<div class="row">
-					<form action="{{url_for('editItem', category = item.category.name, item = item.name)}}" method = 'POST'>
-						<div class="col-md-8">
-							<div class="text-darkblue">
-								<h2>Edit Item</h2>
+				<form action="{{url_for('editItem', category = item.category.name, item = item.name)}}" class="row" method = 'POST'>
+					<div class="col-md-8">
+						<div class="text-darkblue">
+							<h2>Edit Item</h2>
+						</div>
+						<div class="text-primary">
+							<div class="mb-2">Name
+								<div><input type='text' placeholder = "{{item.name}}" class="col-sm-auto" maxlength="80" name='name'></div>
 							</div>
-							<div class="text-info">
-								<div>Name
-									<div><input type='text' placeholder = "{{item.name}}" size='80' name='name'></div>
-								</div>
-								<div class="margin-top-1">Description
-									<div><textarea rows="4" cols="80" maxlength="250" name="description">{{item.description}}</textarea></div>
-								</div>
-								<div class="margin-top-1">Category
-									<div class="text-warning">{{item.category.name}}</div>
-								</div>
-								<div class="margin-top-1">Created By
-									<div class="text-warning">{{item.user.name}}</div>
-								</div>
+							<div class="mb-2">Description
+								<div><textarea rows="4" class="col-sm-auto" maxlength="250" name="description">{{item.description}}</textarea></div>
+							</div>
+							<div class="mb-2">Category
+								<div class="text-secondary">{{item.category.name}}</div>
+							</div>
+							<div class="mb-2">Created By
+								<div class="text-secondary">{{item.user.name}}</div>
 							</div>
 						</div>
-						<div class="col-md-4 background-lightgreen">
-							<div class="text-darkblue">
-								<h2>Actions</h2>
-							</div>
-							
-							<div>
-								<input type='submit' value='Update'>
-							</div>
-							<div>
-								<a href="{{url_for('showItemInfor', category = category, item = item.name)}}">Cancel</a>
-							</div>
+					</div>
+					<div class="col-md-4 background-lightgreen">
+						<div class="text-darkblue">
+							<h2>Actions</h2>
 						</div>
-					</form>
-				</div>
+						
+						<div class="mt-4">
+							<input class="btn btn-success" type='submit' value='Update'>
+						</div>
+						<div class="mt-4">
+							<a class="btn btn-danger" href="{{url_for('showItemInfor', category = category, item = item.name)}}">Cancel</a>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</body>

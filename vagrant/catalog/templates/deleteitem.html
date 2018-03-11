@@ -7,21 +7,21 @@
 	<body>
 		<div class="container">
 			<div class="container">
-				<div class="row background-lightblue">
+				<div class="row background-lightblue align-items-center">
 					<div class="col-md-6 text-left text-uppercase">
 						<a href="{{url_for('showCatalog')}}">
 							<h1>Catalog App</h1>
 						</a>
 					</div>
 					<div class="col-md-6 text-right">
-						<a href="#">Login</a>
+						<a class="btn btn-primary" href="#">Login</a>
 					</div>
 				</div>
 			</div>
 
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 text-info background-lightyellow">
+					<div class="col-md-12 text-warning background-lightyellow">
 						<!--MESSAGE FLASHING EXAMPLE -->
 						{% with messages = get_flashed_messages() %}
 							{% if messages %}
@@ -42,15 +42,15 @@
 						<div class="text-darkblue">
 							<h2>Are you sure you want to delete {{item.name}} from {{item.category.name}}?</h2>
 						</div>
-						<div class="text-info">
-							<div class="margin-top-1">Description
-								<div class="text-warning">{{item.description}}</div>
+						<div class="text-primary">
+							<div class="mt-1">Description
+								<div class="mb-2 text-secondary">{{item.description}}</div>
 							</div>
-							<div class="margin-top-1">Category
-								<div class="text-warning">{{item.category.name}}</div>
+							<div>Category
+								<div class="mb-2 text-secondary">{{item.category.name}}</div>
 							</div>
-							<div class="margin-top-1">Created By
-								<div class="text-warning">{{item.user.name}}</div>
+							<div>Created By
+								<div class="mb-5 text-secondary">{{item.user.name}}</div>
 							</div>
 						</div>
 					</div>
@@ -59,11 +59,11 @@
 							<h2>Actions</h2>
 						</div>
 						<form action="{{url_for('deleteItem', category = item.category.name, item = item.name)}}" method = 'POST'>
-							<div>
-								<input type='submit' value='Yes delete it!'>
+							<div class="mt-4">
+								<input class="btn btn-danger" type='submit' value='Yes delete it!'>
 							</div>
-							<div>
-								<a href="{{url_for('showItemInfor', category = item.category.name, item = item.name)}}">No</a>
+							<div class="mt-4">
+								<a class="btn btn-primary" href="{{url_for('showItemInfor', category = item.category.name, item = item.name)}}">No</a>
 							</div>
 						</form>
 					</div>

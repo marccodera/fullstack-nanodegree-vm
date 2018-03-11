@@ -7,19 +7,19 @@
 	<body>
 		<div class="container">
 			<div class="container">
-				<div class="row background-lightblue">
+				<div class="row background-lightblue align-items-center">
 					<div class="col-md-6 text-left text-uppercase">
 						<h1>Catalog App</h1>
 					</div>
 					<div class="col-md-6 text-right">
-						<a href="#">Login</a>
+						<a class="btn btn-primary" href="{{url_for('showLogin')}}">Login</a>
 					</div>
 				</div>
 			</div>
 
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 text-info background-lightyellow">
+					<div class="col-md-12 text-warning background-lightyellow">
 						<!--MESSAGE FLASHING EXAMPLE -->
 						{% with messages = get_flashed_messages() %}
 							{% if messages %}
@@ -35,7 +35,7 @@
 			</div>
 
 			<div class="container">
-				<div class="row margin-bottom-5 h-100">
+				<div class="row">
 					<div class="col-md-4 background-lightgrey">
 						<div class="text-darkblue">
 							<h2>Categories</h2>
@@ -43,7 +43,7 @@
 
 						{% for i in categories %} <!-- categories variable must be provided by calling string -->
 						
-						<div class="margin-top-1">
+						<div class="mb-2">
 							<a href="{{url_for('showCategoryItems', category_name = i.name)}}">{{i.name}}</a>
 						</div>
 						
@@ -51,8 +51,8 @@
 						
 					</div>
 					<div class="col-md-8">
-						<div>
-							<a href="{{url_for('newItem')}}">New Item</a>
+						<div class="mt-4">
+							<a class="btn btn-info" href="{{url_for('newItem')}}">New Item</a>
 						</div>
 						<hr class="light my-4">
 						<div class="text-darkblue">
@@ -61,7 +61,7 @@
 
 						{% for i in items %}
 
-						<div>
+						<div class="mb-2">
 							<a href="{{url_for('showItemInfor', category = i.category.name, item = i.name)}}">{{i.name}}</a>
 						</div>
 
