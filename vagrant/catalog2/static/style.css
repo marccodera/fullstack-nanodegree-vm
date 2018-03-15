@@ -1,0 +1,28 @@
+.background-lightblue {
+	background-color: lightblue;
+}
+
+.background-lightyellow {
+	background-color: lightyellow;
+}
+
+.background-lightgrey {
+	background-color: lightgrey;
+}
+
+.background-lightgreen {
+	background-color: lightgreen;
+}
+
+.text-darkblue {
+	color: darkblue;
+}
+
+.margin-bottom-5 {
+	margin-bottom: 5em;
+	padding-bottom: 3em;
+}
+
+.margin-top-1 {
+	margin-top: 1em;
+}

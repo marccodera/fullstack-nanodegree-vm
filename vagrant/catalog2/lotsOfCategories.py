@@ -31,14 +31,14 @@ category1 = Category(user_id=1, name="Ski")
 session.add(category1)
 session.commit()
 
-item2 = Item(user_id=1, name="Helmet",
+item2 = Item(user_id=1, name="Helmet", 
              description="Head protection for skiers", category=category1)
 
 session.add(item2)
 session.commit()
 
 
-item1 = Item(user_id=1, name="Skis",
+item1 = Item(user_id=1, name="Skis", 
              description="Very good skis to ski", category=category1)
 
 session.add(item1)
@@ -51,14 +51,14 @@ category1 = Category(user_id=1, name="Surf")
 session.add(category1)
 session.commit()
 
-item2 = Item(user_id=1, name="Leash",
+item2 = Item(user_id=1, name="Leash", 
              description="Best thing ever invented", category=category1)
 
 session.add(item2)
 session.commit()
 
 
-item1 = Item(user_id=1, name="Surfing Table",
+item1 = Item(user_id=1, name="Surfing Table", 
              description="Nice table to surf", category=category1)
 
 session.add(item1)
@@ -71,23 +71,22 @@ category1 = Category(user_id=1, name="Basketball")
 session.add(category1)
 session.commit()
 
-item2 = Item(user_id=1, name="Ball",
+item2 = Item(user_id=1, name="Ball", 
              description="Ball to play basketball", category=category1)
 
 session.add(item2)
 session.commit()
 
 
-item1 = Item(user_id=1, name="Shoes",
+item1 = Item(user_id=1, name="Shoes", 
              description="Nice shoes to play basketball", category=category1)
 
 session.add(item1)
 session.commit()
 
 
-item2 = Item(user_id=1, name="Basket",
-             description="Stand up basket to play basketball",
-             category=category1)
+item2 = Item(user_id=1, name="Basket", 
+             description="Stand up basket to play basketball", category=category1)
 
 session.add(item2)
 session.commit()
@@ -99,21 +98,21 @@ category1 = Category(user_id=1, name="Skateboarding")
 session.add(category1)
 session.commit()
 
-item2 = Item(user_id=1, name="Skateboard",
+item2 = Item(user_id=1, name="Skateboard", 
              description="Nice skate to skateboarding", category=category1)
 
 session.add(item2)
 session.commit()
 
 
-item1 = Item(user_id=1, name="Shoes",
+item1 = Item(user_id=1, name="Shoes", 
              description="Nice shoes to do skateboarding", category=category1)
 
 session.add(item1)
 session.commit()
 
 
-item2 = Item(user_id=1, name="Wheels",
+item2 = Item(user_id=1, name="Wheels", 
              description="Set of 4 wheels for replacement", category=category1)
 
 session.add(item2)

@@ -1,75 +1,55 @@
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
-	</head>
-	<body>
-		<div class="container">
-			<div class="container">
-				<div class="row background-lightblue align-items-center">
-					<div class="col-md-6 text-left text-uppercase">
-						<a href="{{url_for('showCatalog')}}">
-							<h1>Catalog App</h1>
-						</a>
-					</div>
-					<div class="col-md-6 text-right">
-						<a class="btn btn-primary" href="#">Login</a>
-					</div>
-				</div>
-			</div>
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
 
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 text-warning background-lightyellow">
-						<!--MESSAGE FLASHING EXAMPLE -->
-						{% with messages = get_flashed_messages() %}
-							{% if messages %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-warning background-lightyellow">
+				<!--MESSAGE FLASHING EXAMPLE -->
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
 
-								{% for message in messages %}
-								  {{message}}
-								  {% endfor %}
+						{% for message in messages %}
+						  {{message}}
+						  {% endfor %}
 
-							{% endif %}
-						{% endwith %}
-					</div>
-				</div>
-			</div>
-
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="text-darkblue">
-							<h2>Are you sure you want to delete {{item.name}} from {{item.category.name}}?</h2>
-						</div>
-						<div class="text-primary">
-							<div class="mt-1">Description
-								<div class="mb-2 text-secondary">{{item.description}}</div>
-							</div>
-							<div>Category
-								<div class="mb-2 text-secondary">{{item.category.name}}</div>
-							</div>
-							<div>Created By
-								<div class="mb-5 text-secondary">{{item.user.name}}</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12 background-lightgreen">
-						<div class="text-darkblue">
-							<h2>Actions</h2>
-						</div>
-						<form action="{{url_for('deleteItem', category = item.category.name, item = item.name)}}" method = 'POST'>
-							<div class="mt-4">
-								<input class="btn btn-danger" type='submit' value='Yes delete it!'>
-							</div>
-							<div class="mt-4">
-								<a class="btn btn-primary" href="{{url_for('showItemInfor', category = item.category.name, item = item.name)}}">No</a>
-							</div>
-						</form>
-					</div>
-				</div>
+					{% endif %}
+				{% endwith %}
 			</div>
 		</div>
-	</body>
+	</div>
 
-</html>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-darkblue">
+					<h2>Are you sure you want to delete {{item.name}} from {{item.category.name}}?</h2>
+				</div>
+				<div class="text-primary">
+					<div class="mt-1">Description
+						<div class="mb-2 text-secondary">{{item.description}}</div>
+					</div>
+					<div>Category
+						<div class="mb-2 text-secondary">{{item.category.name}}</div>
+					</div>
+					<div>Created By
+						<div class="mb-5 text-secondary">{{item.user.name}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 background-lightgreen">
+				<div class="text-darkblue">
+					<h2>Actions</h2>
+				</div>
+				<form action="{{url_for('deleteItem', category = item.category.name, item = item.name)}}" method = 'POST'>
+					<div class="mt-4">
+						<input class="btn btn-danger" type='submit' value='Yes delete it!'>
+					</div>
+					<div class="mt-4">
+						<a class="btn btn-primary" href="{{url_for('showItemInfor', category = item.category.name, item = item.name)}}">No</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

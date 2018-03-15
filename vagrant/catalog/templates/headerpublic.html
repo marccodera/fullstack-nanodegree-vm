@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row background-lightblue align-items-center">
+        <div class="col-md-6 text-left text-uppercase">
+            <a href="{{url_for('showCatalog')}}">
+                <h1>Catalog App</h1>
+            </a>
+        </div>
+        <div class="col-md-6 text-right">
+            <a class="btn btn-primary" href="{{url_for('showLogin')}}">Login</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-warning background-lightyellow">
+            <!--MESSAGE FLASHING EXAMPLE -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                    {% for message in messages %}
+                      {{message}}
+                    {% endfor %}
+
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>

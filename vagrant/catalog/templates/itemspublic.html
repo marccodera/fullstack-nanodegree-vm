@@ -20,14 +20,13 @@
 			</div>
 			<div class="col-md-8">
 				<div class="text-darkblue">
-					<h2>Latest Items</h2>
+					<h2>All items for {{category_name}} category</h2>
 				</div>
 
 				{% for i in items %}
 
-				<div class="mb-2 text-secondary">
+				<div class="mb-2">
 					<a href="{{url_for('showItemInfor', category = i.category.name, item = i.name)}}">{{i.name}}</a>
-					({{i.category.name}})
 				</div>
 
 				{% endfor %}

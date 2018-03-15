@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+	</head>
+	<body>
+		<div class="container">
+			<div class="container">
+				<div class="row background-lightblue align-items-center">
+					<div class="col-md-6 text-left text-uppercase">
+						<a href="{{url_for('showCatalog')}}">
+							<h1>Catalog App</h1>
+						</a>
+					</div>
+					<div class="col-md-6 text-right">
+						<a class="btn btn-primary" href="#">Login</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-warning background-lightyellow">
+						<!--MESSAGE FLASHING EXAMPLE -->
+						{% with messages = get_flashed_messages() %}
+							{% if messages %}
+
+								{% for message in messages %}
+								  {{message}}
+								  {% endfor %}
+
+							{% endif %}
+						{% endwith %}
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<form action="{{url_for('newItem')}}" method = 'POST' class="row">
+					<div class="col-md-8 mb-3">
+						<div class="text-darkblue">
+							<h2>Edit Item</h2>
+						</div>
+						<div class="text-primary">
+							<div class="mb-2">Name
+								<div><input type='text' class="col-sm-auto" maxlength="80" name='name'></div>
+							</div>
+							<div class="mb-2">Description
+								<div><textarea rows="4" class="col-sm-auto" maxlength="250" name="description"></textarea></div>
+							</div>
+							<div class="mb-2">Category
+								<div><input type='text' class="col-sm-auto" maxlength="70" name='category'></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 background-lightgreen">
+						<div class="text-darkblue">
+							<h2>Actions</h2>
+						</div>
+						
+						<div class="mt-4">
+							<input class="btn btn-success" type='submit' value='Update'>
+						</div>
+						<div class="mt-4">
+							<a class="btn btn-danger" href="{{url_for('showCatalog')}}">Cancel</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+	</head>
+	<body>
+		<div class="container">
+			<div class="container">
+				<div class="row background-lightblue align-items-center">
+					<div class="col-md-6 text-left text-uppercase">
+						<h1>Catalog App</h1>
+					</div>
+					<div class="col-md-6 text-right">
+						<a class="btn btn-primary" href="{{url_for('showLogin')}}">Login</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-warning background-lightyellow">
+						<!--MESSAGE FLASHING EXAMPLE -->
+						{% with messages = get_flashed_messages() %}
+							{% if messages %}
+
+								{% for message in messages %}
+								  {{message}}
+								{% endfor %}
+
+							{% endif %}
+						{% endwith %}
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 background-lightgrey">
+						<div class="text-darkblue">
+							<h2>Categories</h2>
+						</div>
+
+						{% for i in categories %} <!-- categories variable must be provided by calling string -->
+						
+						<div class="mb-2">
+							<a href="{{url_for('showCategoryItems', category_name = i.name)}}">{{i.name}}</a>
+						</div>
+						
+						{% endfor %}
+						
+					</div>
+					<div class="col-md-8">
+						<div class="mt-4">
+							<a class="btn btn-info" href="{{url_for('newItem')}}">New Item</a>
+						</div>
+						<hr class="light my-4">
+						<div class="text-darkblue">
+							<h2>Latest Items</h2>
+						</div>
+
+						{% for i in items %}
+
+						<div class="mb-2">
+							<a href="{{url_for('showItemInfor', category = i.category.name, item = i.name)}}">{{i.name}}</a>
+						</div>
+
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
