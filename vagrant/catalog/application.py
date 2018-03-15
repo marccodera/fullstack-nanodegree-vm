@@ -220,7 +220,7 @@ def createUser(login_session):
     return user.id
 
 
-# [JSON APIs] To view Catalog Information
+# [JSON APIs] To view Catalog Information one for items one for categories
 @app.route('/catalog/categories/JSON')
 def showCategoriesJSON():
     categories = session.query(Category).all()
